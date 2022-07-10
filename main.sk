@@ -5,3 +5,40 @@
 #By willmil11
 # -
 
+on load:
+    if prefix is not set:
+        set prefix to "Server"
+
+command /set-spawn:
+    permission: setspawn.main
+    permission message: &cYou can't do that !
+    usage: &c/set-spawn
+    trigger:
+        set {spawn/location} to player's location
+        send "&1[%prefix%][Spawn]&7 Spawn location's &eset&7 !"
+
+command /spawn [<player>]:
+    usage: &c/spawn
+    trigger:
+        if arg-1 is not set:
+            if {spawn/location} is not set:
+                send "&1[%prefix%][Spawn]&7 Spawn location &eisn't set&7 !" to player
+            else:
+                send "&1[%prefix%][Spawn]&e Teleporting&7 ..." to player
+                teleport player to {spawn/location}
+        else:
+            if player is op:
+                if {spawn/location} is not set:
+                    send "&1[%prefix%][Spawn]&7 Spawn location &eisn't set&7 !" to player
+                else:
+                    send "&1[%prefix%][Spawn]&e Teleporting of %arg-1%&7 !" to player
+                    send "&1[%prefix%][Spawn]&e Teleporting by %player%" to arg-1
+                    teleport arg-1 to {spawn/location}
+
+command /prefix <text>:
+    permission: set-prefix.main
+    permission message: &cYou can't do that !
+    usage: &c/prefix <prefix>
+    trigger:
+        set prefix to arg-1
+        send "&1[%prefix%][Spawn]&7 Prefix&e set&7." to player
